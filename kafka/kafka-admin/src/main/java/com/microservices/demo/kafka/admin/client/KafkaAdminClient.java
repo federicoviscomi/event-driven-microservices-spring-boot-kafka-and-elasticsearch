@@ -56,51 +56,62 @@ public class KafkaAdminClient {
         Long sleepTimeMs = retryConfigData.getSleepTimeMs();
         for (String topic : kafkaConfigData.getTopicNamesToCreate()) {
             while (!isTopicCreated(topics, topic)) {
-                checkMaxRetry(retryCount++, maxRetry);
+                int retry = retryCount++;
+                if (retry > maxRetry) {
+                    throw new KafkaClientException("reached max retry");
+                }
                 sleepTimeMs *= multiplier;
-                sleep(sleepTimeMs);
+                try {
+                    Thread.sleep(sleepTimeMs);
+                } catch (InterruptedException e) {
+                    throw new KafkaClientException();
+                }
                 topics = getTopics();
             }
         }
     }
 
     public void checkSchemaRegistry() {
+        LOG.debug("checkSchemaRegistry+");
         int retryCount = 1;
         Integer maxRetry = retryConfigData.getMaxAttempts();
+        LOG.debug("maxRetry {}", maxRetry);
         int multiplier = retryConfigData.getMultiplier().intValue();
+        LOG.debug("multiplier {}", multiplier);
         Long sleepTimeMs = retryConfigData.getSleepTimeMs();
-        while (getSchemaRegistryStatus().is2xxSuccessful()) {
-            checkMaxRetry(retryCount++, maxRetry);
-            sleep(sleepTimeMs);
+        LOG.debug("sleepTimeMs {}", sleepTimeMs);
+        while (!getSchemaRegistryStatus().is2xxSuccessful()) {
+            int retry = retryCount++;
+            if (retry > maxRetry) {
+                throw new KafkaClientException("reached max retry");
+            }
+            try {
+                LOG.debug("sleeping {}", sleepTimeMs);
+                Thread.sleep(sleepTimeMs);
+            } catch (InterruptedException e) {
+                throw new KafkaClientException();
+            }
             sleepTimeMs *= multiplier;
         }
+        LOG.debug("checkSchemaRegistry-");
     }
 
     private HttpStatus getSchemaRegistryStatus() {
+        LOG.debug("getSchemaRegistryStatus+");
+        HttpStatus status;
         try {
-            return webClient.
+            status = webClient.
                     method(HttpMethod.GET)
                     .uri(kafkaConfigData.getSchemaRegistryUrl())
                     .exchange()
                     .map(ClientResponse::statusCode)
                     .block();
         } catch (Exception e) {
-            return HttpStatus.SERVICE_UNAVAILABLE;
+            LOG.debug("error", e);
+            status = HttpStatus.SERVICE_UNAVAILABLE;
         }
-    }
-
-    private void sleep(Long sleepTimeMs) {
-        try {
-            Thread.sleep(sleepTimeMs);
-        } catch (InterruptedException e) {
-            throw new KafkaClientException();
-        }
-    }
-
-    private void checkMaxRetry(int retry, Integer maxRetry) {
-        if (retry > maxRetry) {
-            throw new KafkaClientException("reached max retry");
-        }
+        LOG.debug("getSchemaRegistryStatus- {}", status);
+        return status;
     }
 
     private boolean isTopicCreated(Collection<TopicListing> topics, String topicName) {
