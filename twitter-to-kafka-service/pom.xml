@@ -45,6 +45,28 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>federicoviscomi/twitter.to.kafka.service:${project.version}</name>
+                        <publish>true</publish>
+                    </image>
+                    <docker>
+                        <publishRegistry>
+                            <email>federicoviscomi@gmail.com</email>
+                            <username>federicoviscomi</username>
+                            <password>7sistersHIKE</password>
+                            <url>registry.hub.docker.com</url>
+                        </publishRegistry>
+                    </docker>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build-image</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
