@@ -8,7 +8,9 @@
         <version>0.0.21-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+
     <artifactId>config-server</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.microservices.demo</groupId>
@@ -23,4 +25,5 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>
+
 </project>
