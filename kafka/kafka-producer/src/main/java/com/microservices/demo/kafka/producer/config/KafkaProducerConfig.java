@@ -21,9 +21,9 @@ public class KafkaProducerConfig<K extends Serializable, V extends SpecificRecor
 
     private final KafkaProducerConfigData kafkaProducerConfigData;
 
-    public KafkaProducerConfig(KafkaConfigData kafkaConfigData, KafkaProducerConfigData kafkaProducerConfigData) {
-        this.kafkaConfigData = kafkaConfigData;
-        this.kafkaProducerConfigData = kafkaProducerConfigData;
+    public KafkaProducerConfig(KafkaConfigData configData, KafkaProducerConfigData producerConfigData) {
+        this.kafkaConfigData = configData;
+        this.kafkaProducerConfigData = producerConfigData;
     }
 
     @Bean

@@ -11,9 +11,9 @@ public class TwitterStatusToAvroTransformer {
         return TwitterAvroModel
                 .newBuilder()
                 .setId(status.getId())
-                .setCreatedAt(status.getCreatedAt().getTime())
                 .setUserId(status.getUser().getId())
                 .setText(status.getText())
+                .setCreatedAt(status.getCreatedAt().getTime())
                 .build();
     }
 }

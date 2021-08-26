@@ -27,9 +27,10 @@ public class TwitterKafkaStreamRunner implements StreamRunner {
 
     private TwitterStream twitterStream;
 
-    public TwitterKafkaStreamRunner(TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData, TwitterKafkaStatusListener twitterKafkaStatusListener) {
-        this.twitterToKafkaServiceConfigData = twitterToKafkaServiceConfigData;
-        this.twitterKafkaStatusListener = twitterKafkaStatusListener;
+    public TwitterKafkaStreamRunner(TwitterToKafkaServiceConfigData configData,
+                                    TwitterKafkaStatusListener statusListener) {
+        this.twitterToKafkaServiceConfigData = configData;
+        this.twitterKafkaStatusListener = statusListener;
     }
 
     @Override

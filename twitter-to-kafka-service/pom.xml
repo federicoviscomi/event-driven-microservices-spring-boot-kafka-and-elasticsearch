@@ -8,7 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+
     <artifactId>twitter-to-kafka-service</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.microservices.demo</groupId>
@@ -35,11 +37,8 @@
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-stream</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -47,17 +46,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>federicoviscomi/twitter.to.kafka.service:${project.version}</name>
-                        <publish>true</publish>
+                        <name>${project.groupId}/twitter.to.kafka.service:${project.version}</name>
                     </image>
-                    <docker>
-                        <publishRegistry>
-                            <email>federicoviscomi@gmail.com</email>
-                            <username>federicoviscomi</username>
-                            <password>7sistersHIKE</password>
-                            <url>registry.hub.docker.com</url>
-                        </publishRegistry>
-                    </docker>
                 </configuration>
                 <executions>
                     <execution>
@@ -70,4 +60,6 @@
             </plugin>
         </plugins>
     </build>
+
+
 </project>
