@@ -5,6 +5,15 @@ spring:
     config:
       server:
         git:
-          uri: file://Users/fevi/microservices-demo_origin/config-server-repository
+          uri: https://github.com/federicoviscomi/spring-cloud-config-server-repository.git
+          username: federicoviscomi
+          password: ENC(UzKePcWLm179h84EyEFSEG2+AZRcEV9Ot2HjLT2h015iAIlEdYrdfEh+EMlYaqV7ews7ll7hswzA77ex0fNCsI0368P9WGLA2LAiErr8h94=)
           clone-on-start: true
       fail-fast: true
+  security:
+    user:
+      name: spring_cloud_user
+      password: ENC(ry34xFnMFhAXhhwpHiAXl7ATAO+X0EwJcO7dvalJdEMoaUGDIrAQieXhpVvxPe+i5eBirqJhJbPzuLYOMF59LQ==)
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
