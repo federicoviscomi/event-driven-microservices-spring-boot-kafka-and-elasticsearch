@@ -8,7 +8,7 @@ public class TestJasypt {
     public static void main(String[] args) {
 
         StandardPBEStringEncryptor standardPBEStringEncryptor = new StandardPBEStringEncryptor();
-        standardPBEStringEncryptor.setPassword("diocanebastardo");
+        standardPBEStringEncryptor.setPassword("");
         standardPBEStringEncryptor.setAlgorithm("PBEWithHMACSHA512AndAES_256");
         standardPBEStringEncryptor.setIvGenerator(new RandomIvGenerator());
         String result = standardPBEStringEncryptor.encrypt("springCloud_Pwd!");
