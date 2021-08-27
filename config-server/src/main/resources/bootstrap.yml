@@ -7,10 +7,13 @@ spring:
         git:
           uri: https://github.com/federicoviscomi/spring-cloud-config-server-repository.git
           username: federicoviscomi
-          password: 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
+          password: ENC(UzKePcWLm179h84EyEFSEG2+AZRcEV9Ot2HjLT2h015iAIlEdYrdfEh+EMlYaqV7ews7ll7hswzA77ex0fNCsI0368P9WGLA2LAiErr8h94=)
           clone-on-start: true
       fail-fast: true
   security:
     user:
       name: spring_cloud_user
-      password: springCloud_Pwd!
+      password: ENC(ry34xFnMFhAXhhwpHiAXl7ATAO+X0EwJcO7dvalJdEMoaUGDIrAQieXhpVvxPe+i5eBirqJhJbPzuLYOMF59LQ==)
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
