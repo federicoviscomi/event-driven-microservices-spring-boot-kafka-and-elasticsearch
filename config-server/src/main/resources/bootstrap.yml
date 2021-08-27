@@ -5,6 +5,12 @@ spring:
     config:
       server:
         git:
-          uri: file://Users/fevi/microservices-demo_origin/config-server-repository
+          uri: https://github.com/federicoviscomi/spring-cloud-config-server-repository.git
+          username: federicoviscomi
+          password: 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
           clone-on-start: true
       fail-fast: true
+  security:
+    user:
+      name: spring_cloud_user
+      password: springCloud_Pwd!
