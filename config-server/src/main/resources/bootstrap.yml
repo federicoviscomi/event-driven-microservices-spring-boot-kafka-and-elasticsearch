@@ -6,6 +6,7 @@ spring:
       server:
         git:
           uri: https://github.com/federicoviscomi/spring-cloud-config-server-repository.git
+          default-label: master
           username: federicoviscomi
           password: '{cipher}c2aea5b0f09cde7b7cce61b5c21bb7431d4d96b8424025eac86f9414b9492c10631b0ea0cb73cae97e058cf8ac4df8f9ad77a9aa28f596cc382f6cabab0e7be7'
           clone-on-start: true
