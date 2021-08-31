@@ -19,6 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,16 @@ public class KafkaAdminClient {
 
     private final WebClient webClient;
 
+    @Override
+    public String toString() {
+        return new StringJoiner("\n\t", KafkaAdminClient.class.getSimpleName() + "[", "]")
+                .add("kafkaConfigData=" + kafkaConfigData)
+                .add("retryConfigData=" + retryConfigData)
+                .add("adminClient=" + adminClient)
+                .add("retryTemplate=" + retryTemplate)
+                .add("webClient=" + webClient)
+                .toString();
+    }
 
     public KafkaAdminClient(KafkaConfigData config,
                             RetryConfigData retryConfigData,
@@ -62,6 +73,7 @@ public class KafkaAdminClient {
     }
 
     public void checkTopicsCreated() {
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.checkTopicsCreated+");
         Collection<TopicListing> topics = getTopics();
         int retryCount = 1;
         Integer maxRetry = retryConfigData.getMaxAttempts();
@@ -75,9 +87,11 @@ public class KafkaAdminClient {
                 topics = getTopics();
             }
         }
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.checkTopicsCreated-");
     }
 
     public void checkSchemaRegistry() {
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.checkSchemaRegistry+");
         int retryCount = 1;
         Integer maxRetry = retryConfigData.getMaxAttempts();
         int multiplier = retryConfigData.getMultiplier().intValue();
@@ -87,19 +101,25 @@ public class KafkaAdminClient {
             sleep(sleepTimeMs);
             sleepTimeMs *= multiplier;
         }
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.checkSchemaRegistry-");
     }
 
     private HttpStatus getSchemaRegistryStatus() {
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.getSchemaRegistryStatus+");
+        LOG.info("schema registry url: " + kafkaConfigData.getSchemaRegistryUrl());
+        HttpStatus status;
         try {
-            return webClient
+            status = webClient
                     .method(HttpMethod.GET)
                     .uri(kafkaConfigData.getSchemaRegistryUrl())
                     .exchange()
                     .map(ClientResponse::statusCode)
                     .block();
         } catch (Exception e) {
-            return HttpStatus.SERVICE_UNAVAILABLE;
+            status = HttpStatus.SERVICE_UNAVAILABLE;
         }
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.getSchemaRegistryStatus- " + status);
+        return status;
     }
 
 
@@ -118,10 +138,15 @@ public class KafkaAdminClient {
     }
 
     private boolean isTopicCreated(Collection<TopicListing> topics, String topicName) {
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.isTopicCreated+");
+        LOG.info(topics == null ? "null topics" : topics.toString());
+        LOG.info(topicName);
         if (topics == null) {
             return false;
         }
-        return topics.stream().anyMatch(topic -> topic.name().equals(topicName));
+        boolean isTopicCreated = topics.stream().anyMatch(topic -> topic.name().equals(topicName));
+        LOG.info("com.microservices.demo.kafka.admin.client.KafkaAdminClient.isTopicCreated- " + isTopicCreated);
+        return isTopicCreated;
     }
 
     private CreateTopicsResult doCreateTopics(RetryContext retryContext) {

@@ -28,17 +28,27 @@ public class TwitterKafkaConsumer implements KafkaConsumer<Long, TwitterAvroMode
 
     private final KafkaConfigData kafkaConfigData;
 
-    public TwitterKafkaConsumer(KafkaListenerEndpointRegistry listenerEndpointRegistry,
-                                KafkaAdminClient adminClient,
-                                KafkaConfigData configData) {
+    public TwitterKafkaConsumer(KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry,
+                                KafkaAdminClient kafkaAdminClient,
+                                KafkaConfigData kafkaConfigData) {
         LOG.info("com.microservices.demo.kafka.to.elastic.service.consumer.impl.TwitterKafkaConsumer.TwitterKafkaConsumer");
-        this.kafkaListenerEndpointRegistry = listenerEndpointRegistry;
-        this.kafkaAdminClient = adminClient;
-        this.kafkaConfigData = configData;
+        this.kafkaListenerEndpointRegistry = kafkaListenerEndpointRegistry;
+        this.kafkaAdminClient = kafkaAdminClient;
+        this.kafkaConfigData = kafkaConfigData;
+        LOG.info("kafkaListenerEndpointRegistry.isRunning: " + this.kafkaListenerEndpointRegistry.isRunning());
+        LOG.info("kafkaListenerEndpointRegistry.getAllListenerContainers(): " + this.kafkaListenerEndpointRegistry.getAllListenerContainers().toString());
+        LOG.info(this.kafkaAdminClient.toString());
+        this.kafkaAdminClient.checkSchemaRegistry();
+        this.kafkaAdminClient.checkTopicsCreated();
+        LOG.info(this.kafkaConfigData.toString());
     }
 
     @Override
-    @KafkaListener(id = "twitterTopicListener", topics = "${kafka-config.topic-name}")
+    @KafkaListener(
+            id = "twitterTopicListener",
+            topics = "${kafka-config.topic-name}",
+            containerFactory = ""
+    )
     public void receive(@Payload List<TwitterAvroModel> messages,
                         @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<Integer> keys,
                         @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
