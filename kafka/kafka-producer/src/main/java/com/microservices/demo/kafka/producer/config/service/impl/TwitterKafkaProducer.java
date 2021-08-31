@@ -26,10 +26,12 @@ public class TwitterKafkaProducer implements KafkaProducer<Long, TwitterAvroMode
 
     @Override
     public void send(String topicName, Long key, TwitterAvroModel message) {
+        LOG.debug("com.microservices.demo.kafka.producer.config.service.impl.TwitterKafkaProducer.send+");
         LOG.info("Sending message='{}' to topic='{}'", message, topicName);
         ListenableFuture<SendResult<Long, TwitterAvroModel>> kafkaResultFuture =
                 kafkaTemplate.send(topicName, key, message);
         addCallback(topicName, message, kafkaResultFuture);
+        LOG.debug("com.microservices.demo.kafka.producer.config.service.impl.TwitterKafkaProducer.send-");
     }
 
     @PreDestroy
@@ -50,13 +52,13 @@ public class TwitterKafkaProducer implements KafkaProducer<Long, TwitterAvroMode
 
             @Override
             public void onSuccess(SendResult<Long, TwitterAvroModel> result) {
-                    RecordMetadata metadata = result.getRecordMetadata();
-                    LOG.debug("Received new metadata. Topic: {}; Partition {}; Offset {}; Timestamp {}, at time {}",
-                            metadata.topic(),
-                            metadata.partition(),
-                            metadata.offset(),
-                            metadata.timestamp(),
-                            System.nanoTime());
+                RecordMetadata metadata = result.getRecordMetadata();
+                LOG.debug("Received new metadata. Topic: {}; Partition {}; Offset {}; Timestamp {}, at time {}",
+                        metadata.topic(),
+                        metadata.partition(),
+                        metadata.offset(),
+                        metadata.timestamp(),
+                        System.nanoTime());
             }
         });
     }
