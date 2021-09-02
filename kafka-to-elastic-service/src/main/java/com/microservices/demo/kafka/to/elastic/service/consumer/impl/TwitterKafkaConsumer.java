@@ -7,6 +7,7 @@ import com.microservices.demo.kafka.to.elastic.service.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
@@ -41,6 +42,14 @@ public class TwitterKafkaConsumer implements KafkaConsumer<Long, TwitterAvroMode
         this.kafkaAdminClient.checkSchemaRegistry();
         this.kafkaAdminClient.checkTopicsCreated();
         LOG.info(this.kafkaConfigData.toString());
+    }
+
+    @EventListener
+    public void onAppStarted(ApplicationStartedEvent applicationStartedEvent) {
+        kafkaAdminClient.checkTopicsCreated();
+        kafkaListenerEndpointRegistry
+                .getListenerContainer("twitterTopicListener")
+                .start();
     }
 
     @Override
