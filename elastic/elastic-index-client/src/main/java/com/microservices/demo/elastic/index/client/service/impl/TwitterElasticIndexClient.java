@@ -17,6 +17,7 @@ import java.util.List;
 @Service
 @ConditionalOnProperty(name = "elastic-config.is-repository", havingValue = "false")
 public class TwitterElasticIndexClient implements ElasticIndexClient<TwitterIndexModel> {
+
     private static final Logger LOG = LoggerFactory.getLogger(TwitterElasticIndexClient.class);
 
     private final ElasticConfigData elasticConfigData;
@@ -25,17 +26,23 @@ public class TwitterElasticIndexClient implements ElasticIndexClient<TwitterInde
 
     private final ElasticIndexUtil<TwitterIndexModel> elasticIndexUtil;
 
-    public TwitterElasticIndexClient(ElasticConfigData elasticConfigData, ElasticsearchOperations elasticsearchOperations, ElasticIndexUtil<TwitterIndexModel> elasticIndexUtil) {
-        this.elasticConfigData = elasticConfigData;
-        this.elasticsearchOperations = elasticsearchOperations;
-        this.elasticIndexUtil = elasticIndexUtil;
+    public TwitterElasticIndexClient(ElasticConfigData configData,
+                                     ElasticsearchOperations elasticOperations,
+                                     ElasticIndexUtil<TwitterIndexModel> indexUtil) {
+        this.elasticConfigData = configData;
+        this.elasticsearchOperations = elasticOperations;
+        this.elasticIndexUtil = indexUtil;
     }
 
     @Override
     public List<String> save(List<TwitterIndexModel> documents) {
         List<IndexQuery> indexQueries = elasticIndexUtil.getIndexQueries(documents);
-        List<String> documentIds = elasticsearchOperations.bulkIndex(indexQueries, IndexCoordinates.of(elasticConfigData.getIndexName()));
-        LOG.info("Documents indexed successfully with type: {} and ids: {} ", TwitterIndexModel.class.getName(), documentIds);
+        List<String> documentIds = elasticsearchOperations.bulkIndex(
+                indexQueries,
+                IndexCoordinates.of(elasticConfigData.getIndexName())
+        );
+        LOG.info("Documents indexed successfully with type: {} and ids: {}", TwitterIndexModel.class.getName(),
+                documentIds);
         return documentIds;
     }
 }

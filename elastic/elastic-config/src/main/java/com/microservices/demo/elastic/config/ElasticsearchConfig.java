@@ -21,8 +21,8 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
 
     private final ElasticConfigData elasticConfigData;
 
-    public ElasticsearchConfig(ElasticConfigData elasticConfigData) {
-        this.elasticConfigData = elasticConfigData;
+    public ElasticsearchConfig(ElasticConfigData configData) {
+        this.elasticConfigData = configData;
     }
 
     @Override
@@ -37,15 +37,15 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
                 )).setRequestConfigCallback(
                         requestConfigBuilder ->
                                 requestConfigBuilder
-                                        .setConnectTimeout(elasticConfigData.getConnectionTimeoutMs())
-                                        .setSocketTimeout(elasticConfigData.getSocketTimeoutMs())
+                                        .setConnectTimeout(elasticConfigData.getConnectionTimeout())
+                                        .setSocketTimeout(elasticConfigData.getSocketTimeout())
 
                 )
         );
     }
 
     @Bean
-    public ElasticsearchOperations elasticsearchOperations() {
+    public ElasticsearchOperations elasticsearchTemplate() {
         return new ElasticsearchRestTemplate(elasticsearchClient());
     }
 }

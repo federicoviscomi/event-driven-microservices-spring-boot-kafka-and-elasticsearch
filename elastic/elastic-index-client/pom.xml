@@ -8,7 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+
     <artifactId>elastic-index-client</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>com.microservices.demo</groupId>
@@ -23,4 +25,5 @@
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
     </dependencies>
+
 </project>

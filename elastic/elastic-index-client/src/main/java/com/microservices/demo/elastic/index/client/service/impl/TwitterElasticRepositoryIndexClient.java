@@ -9,27 +9,26 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @ConditionalOnProperty(name = "elastic-config.is-repository", havingValue = "true", matchIfMissing = true)
 public class TwitterElasticRepositoryIndexClient implements ElasticIndexClient<TwitterIndexModel> {
+
     private static final Logger LOG = LoggerFactory.getLogger(TwitterElasticRepositoryIndexClient.class);
 
     private final TwitterElasticsearchIndexRepository twitterElasticsearchIndexRepository;
 
-    public TwitterElasticRepositoryIndexClient(TwitterElasticsearchIndexRepository twitterElasticsearchIndexRepository) {
-        this.twitterElasticsearchIndexRepository = twitterElasticsearchIndexRepository;
+    public TwitterElasticRepositoryIndexClient(TwitterElasticsearchIndexRepository indexRepository) {
+        this.twitterElasticsearchIndexRepository = indexRepository;
     }
 
     @Override
     public List<String> save(List<TwitterIndexModel> documents) {
-        Iterable<TwitterIndexModel> twitterIndexModels = twitterElasticsearchIndexRepository.saveAll(documents);
-        List<String> ids = new ArrayList<>();
-        for (TwitterIndexModel twitterIndexModel : twitterIndexModels) {
-            ids.add(twitterIndexModel.getId());
-        }
+        List<TwitterIndexModel> repositoryResponse =
+                (List<TwitterIndexModel>) twitterElasticsearchIndexRepository.saveAll(documents);
+        List<String> ids = repositoryResponse.stream().map(TwitterIndexModel::getId).collect(Collectors.toList());
         LOG.info("Documents indexed successfully with type: {} and ids: {}", TwitterIndexModel.class.getName(), ids);
         return ids;
     }
