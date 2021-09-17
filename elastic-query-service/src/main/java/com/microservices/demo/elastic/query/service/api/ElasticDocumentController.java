@@ -84,4 +84,11 @@ public class ElasticDocumentController {
         LOG.info("Elasticsearch returned {} of documents", response.size());
         return ResponseEntity.ok(response);
     }
+
+    /*
+    @PostMapping("/delete-all-documents")
+    public @ResponseBody ? deleteAllDocuments() {
+        elasticQueryService.deleteAllDocuments();
+    }
+    */
 }
