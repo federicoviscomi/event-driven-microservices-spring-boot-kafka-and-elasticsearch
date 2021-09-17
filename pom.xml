@@ -43,6 +43,7 @@
 		<spring-cloud.version>2.2.6.RELEASE</spring-cloud.version>
 		<spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
 		<elastic.version>7.9.1</elastic.version>
+		<springdoc-openapi-ui.version>1.5.10</springdoc-openapi-ui.version>
 	</properties>
 
 	<repositories>
@@ -73,11 +74,6 @@
 			<dependency>
 				<groupId>com.microservices.demo</groupId>
 				<artifactId>elastic-query-client</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.microservices.demo</groupId>
-				<artifactId>elastic-index-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -140,6 +136,12 @@
 				<version>${spring-cloud-dependencies.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-ui</artifactId>
+				<version>${springdoc-openapi-ui.version}</version>
 			</dependency>
 
 			<dependency>
