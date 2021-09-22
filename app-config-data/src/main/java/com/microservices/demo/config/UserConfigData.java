@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "user-config")
 public class UserConfigData {
-    private String userName;
+    private String username;
     private String password;
     private String[] roles;
 }
