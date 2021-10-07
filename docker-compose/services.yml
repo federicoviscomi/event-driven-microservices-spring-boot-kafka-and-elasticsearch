@@ -2,9 +2,6 @@ version: '3.7'
 services:
   twitter-to-kafka-service:
     image: ${GROUP_ID}/twitter.to.kafka.service:${SERVICE_VERSION:-latest}
-    build:
-      context: ../twitter-to-kafka-service
-      dockerfile: Dockerfile
     ports:
       - "5005:5005"
     volumes:
