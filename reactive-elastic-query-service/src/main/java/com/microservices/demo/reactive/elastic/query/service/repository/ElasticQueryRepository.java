@@ -7,5 +7,6 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface ElasticQueryRepository extends ReactiveCrudRepository<TwitterIndexModel, String> {
+
     Flux<TwitterIndexModel> findByText(String text);
 }
