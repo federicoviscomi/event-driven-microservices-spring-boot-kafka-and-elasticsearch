@@ -1,0 +1,1 @@
+curl http://localhost:8081/auth/realms/microservices-realm/.well-known/openid-configuration | jq
