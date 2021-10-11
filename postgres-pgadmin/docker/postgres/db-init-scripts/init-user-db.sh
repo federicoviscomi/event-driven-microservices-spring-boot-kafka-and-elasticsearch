@@ -14,3 +14,9 @@ psql -v ON_ERROR_STOP=1 --username "keycloak" --dbname "keycloak" <<-EOSQL
     CREATE SCHEMA keycloak;
     GRANT ALL PRIVILEGES ON DATABASE keycloak TO keycloak;
 EOSQL
+
+psql -v ON_ERROR_STOP=1 --username "keycloak" --dbname "keycloak" <<-EOSQL
+    CREATE USER postgres;
+    ALTER USER postgres WITH PASSWORD 'postgres';
+    GRANT ALL PRIVILEGES ON DATABASE postgres TO postgres;
+EOSQL

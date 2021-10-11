@@ -1,0 +1,7 @@
+version: "3.7"
+services:
+  init-test-data-2:
+    build:
+      context: ./
+    environment:
+      - "POSTGRES_HOST=host.docker.internal"
