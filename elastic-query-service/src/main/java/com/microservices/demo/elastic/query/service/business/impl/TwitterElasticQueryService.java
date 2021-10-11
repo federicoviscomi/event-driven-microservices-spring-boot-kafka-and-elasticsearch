@@ -20,10 +20,10 @@ public class TwitterElasticQueryService implements ElasticQueryService {
 
     private final ElasticQueryClient<TwitterIndexModel> elasticQueryClient;
 
-    public TwitterElasticQueryService(ElasticQueryServiceResponseModelAssembler elasticQueryServiceResponseModelAssembler,
-                                      ElasticQueryClient<TwitterIndexModel> elasticQueryClient) {
-        this.elasticQueryServiceResponseModelAssembler = elasticQueryServiceResponseModelAssembler;
-        this.elasticQueryClient = elasticQueryClient;
+    public TwitterElasticQueryService(ElasticQueryServiceResponseModelAssembler assembler,
+                                      ElasticQueryClient<TwitterIndexModel> queryClient) {
+        this.elasticQueryServiceResponseModelAssembler = assembler;
+        this.elasticQueryClient = queryClient;
     }
 
     @Override
