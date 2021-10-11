@@ -38,7 +38,7 @@ public class WebClientConfig {
     private TcpClient getTcpClient() {
         return TcpClient
                 .create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, webClientConfig.getConnectTimeoutMs())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, webClientConfig.getConnectionTimeoutMs())
                 .doOnConnected(connection -> {
                     connection.addHandlerLast(new ReadTimeoutHandler(webClientConfig.getReadTimeoutMs(),
                             TimeUnit.MILLISECONDS));

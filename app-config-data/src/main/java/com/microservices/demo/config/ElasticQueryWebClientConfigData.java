@@ -15,7 +15,7 @@ public class ElasticQueryWebClientConfigData {
 
     @Data
     public static class WebClient {
-        private Integer connectTimeoutMs;
+        private Integer connectionTimeoutMs;
         private Integer readTimeoutMs;
         private Integer writeTimeoutMs;
         private Integer maxInMemorySize;

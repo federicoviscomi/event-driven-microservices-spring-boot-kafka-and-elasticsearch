@@ -49,7 +49,7 @@ public class WebClientConfig {
 
     private TcpClient getTcpClient() {
         return TcpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, elasticQueryWebClientConfigData.getConnectTimeoutMs())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, elasticQueryWebClientConfigData.getConnectionTimeoutMs())
                 .doOnConnected(connection -> {
                     connection.addHandlerLast(
                             new ReadTimeoutHandler(elasticQueryWebClientConfigData.getReadTimeoutMs(),
