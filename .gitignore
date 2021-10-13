@@ -1,3 +1,4 @@
+config-server-repository/
 .DS_Store
 set_pwd.sh
 HELP.md
